@@ -53,7 +53,7 @@ const renderButtons=(page,numOfResults,resPerPage)=>{
 		button=createButton(page,"next");
 	}else if(page<pages){
 		button=
-		`
+        `
 		${createButton(page,"prev")}
 		${createButton(page,"next")}
 		`
@@ -92,4 +92,13 @@ export const renderResults=(recipes,page=1,resPerPage=10) =>{
 			
 		})
 			renderButtons(page,recipes.length,resPerPage);
+}
+
+export const higlight=(id)=>{
+	let allLi=Array.from(document.querySelectorAll('.results__link'));
+	console.log(allLi);	
+	allLi.forEach(el=>{
+		el.classList.remove("results__link--active");
+	})
+	document.querySelector(`a[href="#${id}"]`).classList.add("results__link--active");
 }

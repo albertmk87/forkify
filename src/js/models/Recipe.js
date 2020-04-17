@@ -31,12 +31,26 @@ export default class Recipe {
 		this.servings=4;
 	}
 
-	    parseIngredient() {
+	updateServings(type){
+		let newServings;
+		if(type==="dec"){
+			newServings=this.servings-1;
+		}else{
+			newServings=this.servings+1;
+		}
+
+		this.ingredients.forEach(ingredient=>{
+			ingredient.count=ingredient.count*(newServings/this.servings);
+		})
+		this.servings=newServings;
+	}
+
+	parseIngredient() {
 
 	 //две низи од зборови што ќе ги замениме со помали зборови
         const unitsLong = ['tablespoons', 'tablespoon', 'ounces', 'ounce', 'teaspoons', 'teaspoon', 'cups', 'pounds'];
         const unitsShort = ['tbsp', 'tbsp', 'oz', 'oz', 'tsp', 'tsp', 'cup', 'pound'];
-    
+    	const units=[...unitsShort,"kg", "g"];
    //итерираме низ низата на состојки
         const newIngredients = this.ingredients.map(el => {
       //секоја состојка со мали букви     
@@ -45,13 +59,13 @@ export default class Recipe {
     // секоја состојка(ingredient) зборото доколку го има во долгата низа
     //со збор од малата низа
             unitsLong.forEach((unit, i) => {
-                ingredient = ingredient.replace(unit, unitsShort[i]);
+                ingredient = ingredient.replace(unit, units[i]);
             });
 
    	//доколку има во секоја состојка некое објаснување во загради го острануваме	  
             ingredient = ingredient.replace(/ *\([^)]*\) */g, ' ');
 
-     //правиме нова низа од секоја состојка     
+     //правиме нова низа од секој збор од состојката     
             const arrIng = ingredient.split(' ');
      //го бараме индексот на местото во низата на состојките каде што постоит
      //зборот пример 'tbsp' , 'oz'......
@@ -77,7 +91,7 @@ export default class Recipe {
                 //odnostno brojot unit da bide nizata kaj sto e indeksot na tbsp,oz....
                 //a objasnuvanjeto na sostojkata od toj indeks plus 1 do kraj .join za da bide string
                 objIng = {
-                    count,
+                    count:count,
                     unit: arrIng[unitIndex],
                     ingredient: arrIng.slice(unitIndex + 1).join(' ')
                 };
