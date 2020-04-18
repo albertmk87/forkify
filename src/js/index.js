@@ -4,7 +4,9 @@ import {elements, renderLoader,clearLoader} from "./views/base.js";
 import Recipe from "./models/Recipe.js";
 import * as recipeView from "./views/recipeView.js";
 import List from "./models/List.js";
+import Likes from "./models/Likes.js";
 import * as shoppingListView from "./views/shoppingListView.js";
+import * as likesView from "./views/likesView.js";
 //Global state of the application
 //Search object
 //Current recipe object
@@ -82,12 +84,13 @@ const controlRecipe=async ()=>{
 				
 			//render the recipe to the UI
 			clearLoader();
-			recipeView.renderRecipe(state.recipe);
+
+			recipeView.renderRecipe(state.recipe, state.likes.isLiked(id));
 		}
 }
 
 
-const controlList=async ()=>{
+const controlList=()=>{
 	if(!state.list){
 
 		state.list=new List();
@@ -96,7 +99,45 @@ const controlList=async ()=>{
 			const item=state.list.addItem(ingredient.count,ingredient.unit,ingredient.ingredient);
 			shoppingListView.renderItem(item);
 		})
+	}else {
+		state.recipe.ingredients.forEach(ingredient=>{
+			const item=state.list.addItem(ingredient.count,ingredient.unit,ingredient.ingredient);
+			shoppingListView.renderItem(item);
+		})
 	}
+}
+
+//testing
+state.likes=new Likes();
+
+const controlLike=()=>{
+	if(!state.likes){
+		state.likes=new Likes();	
+}
+		const currentID=state.recipe.id;
+		
+		if(!state.likes.isLiked(currentID)){
+			//стави го лике во стате.ликес низата
+			const newLike=state.likes.addLike(currentID,state.recipe.title,state.recipe.author,state.recipe.image);
+
+			//toggle like button da se smeni
+			likesView.toggleButton(true);
+
+			//add the like to the UI
+		
+				likesView.renderLike(newLike);
+		
+		}else {
+			//remove like from the state
+			state.likes.deleteLike(currentID);
+			//toggle like button
+			likesView.toggleButton(false);
+			//remove like from the ui
+			likesView.deleteLike(currentID);
+
+		}
+		console.log(state.likes.getNumOfLikes());
+		likesView.toggleMenuLike(state.likes.getNumOfLikes());
 }
 
 window.addEventListener("hashchange", controlRecipe);
@@ -119,7 +160,11 @@ elements.recipeDIV.addEventListener("click", e=>{
 })
 
 
-
+elements.recipeDIV.addEventListener("click", e=>{
+	if(e.target.matches('.recipe__love, .recipe__love *')){
+		controlLike();
+	}
+})
 
 
 
@@ -142,8 +187,13 @@ elements.shoppingListDiv.addEventListener('click', e => {
         shoppingListView.deleteItem(id);
 
     // Handle the count update
-    } else if (e.target.matches('.shopping__count-value')) {
+    } else if (e.target.matches('.shopping__count--value')) {
         const val = parseFloat(e.target.value, 10);
-        state.list.updateCount(id, val);
+      	console.log(val);
+        	state.list.updateCount(id, val);
+        
+        
     }
 });
+
+

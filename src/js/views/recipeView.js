@@ -36,13 +36,13 @@ const formatNumber=(x)=>{
 }
 
 
-export const renderRecipe=recipe=>{
+export const renderRecipe=(recipe,isLiked)=>{
 		const markUp=
 		`
             <figure class="recipe__fig">
                 <img src="${recipe.image}" alt="Tomato" class="recipe__img">
-                <h1 class="${recipe.title}">
-                    <span>Pasta with tomato cream sauce</span>
+                <h1 class="">
+                    <span>${recipe.title}</span>
                 </h1>
             </figure>
             <div class="recipe__details">
@@ -74,7 +74,7 @@ export const renderRecipe=recipe=>{
                 </div>
                 <button class="recipe__love">
                     <svg class="header__likes">
-                        <use href="img/icons.svg#icon-heart-outlined"></use>
+                        <use href="img/icons.svg#icon-heart${isLiked ? "" : "-outlined"}"></use>
                     </svg>
                 </button>
             </div>

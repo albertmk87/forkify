@@ -6,7 +6,9 @@ recipesDOM:document.querySelector(".results__list"),
 recipesResultDIV:document.querySelector(".results"),
 buttonDIV:document.querySelector(".results__pages"),
 recipeDIV:document.querySelector(".recipe"),
-shoppingListDiv:document.querySelector(".shopping__list")
+shoppingListDiv:document.querySelector(".shopping__list"),
+likesMenuDiv:document.querySelector(".likes__field"),
+likesListDiv:document.querySelector(".likes__list")
 }
 
 export const elementsStrings={

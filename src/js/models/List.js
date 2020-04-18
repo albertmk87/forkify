@@ -24,10 +24,12 @@ export default class List {
 		this.items.splice(index,1);
 	}
 
-	updateCount(id,newCount){
-          const item=this.items.find(el=>{
-          	return el.id===id;
-          })
-          item.count===newCount;
-	}
+	updateCount(id, newCount) {
+       const item=this.items.find(el => el.id === id);
+       if(item.count>0){
+       	 item.count = newCount
+       }
+      
+    }
+	
 }
