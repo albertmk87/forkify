@@ -15,7 +15,7 @@ export const clearButtonDOM=()=>{
 	elements.buttonDIV.innerHTML="";
 }
 
-const limitTitle=(title,max)=>{
+export const limitTitle=(title,max)=>{
 	const newArr=[];
 
 	if(title.length>max){

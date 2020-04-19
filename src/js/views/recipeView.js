@@ -18,16 +18,18 @@ const createIngredient=ingredient=>`
 const formatNumber=(x)=>{
 
 	if(x){
-			const [int,dec]=x.toString().split(".").map(el=> parseInt(el,10));
+
+			const newX=Math.round(x*10000) / 10000;
+			const [int,dec]=newX.toString().split(".").map(el=> parseInt(el,10));
 			if(!dec){
-				return x;
+				return newX;
 			}
 
 			if(int===0){
-				const fr=new Fraction(x);
+				const fr=new Fraction(newX);
 				return `${fr.numerator}/${fr.denominator}`
 			}else{
-				const fr=new Fraction(x-int);
+				const fr=new Fraction(newX-int);
 				return `${int} ${fr.numerator}/${fr.denominator}`
 
 			}

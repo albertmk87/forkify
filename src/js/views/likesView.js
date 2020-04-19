@@ -1,5 +1,5 @@
 import {elements} from "./base.js";
-
+import { limitTitle } from "./SearchView.js";
 
 
 export const renderLike=(like)=>{
@@ -11,7 +11,7 @@ export const renderLike=(like)=>{
                         <img src="${like.image}" alt="Test">
                     </figure>
                     <div class="likes__data">
-                        <h4 class="likes__name">${like.title}</h4>
+                        <h4 class="likes__name">${limitTitle(like.title,17)}</h4>
                         <p class="likes__author">${like.author}</p>
                     </div>
              </a>

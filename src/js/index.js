@@ -19,7 +19,7 @@ import * as likesView from "./views/likesView.js";
 
 
 const state={};
-window.state=state;
+
 
 const controlSearch=async ()=>{
 	// 1. get the query from the view
@@ -74,7 +74,7 @@ const controlRecipe=async ()=>{
 
 			//create new recipe object
 				state.recipe=new Recipe(id);
-				window.r=state.recipe;
+				
 			//get recipe data
 			await state.recipe.getRecipe();
 			//calc time and servings
@@ -107,13 +107,11 @@ const controlList=()=>{
 	}
 }
 
-//testing
-state.likes=new Likes();
+
+
 
 const controlLike=()=>{
-	if(!state.likes){
-		state.likes=new Likes();	
-}
+
 		const currentID=state.recipe.id;
 		
 		if(!state.likes.isLiked(currentID)){
@@ -124,7 +122,7 @@ const controlLike=()=>{
 			likesView.toggleButton(true);
 
 			//add the like to the UI
-		
+			
 				likesView.renderLike(newLike);
 		
 		}else {
@@ -136,7 +134,7 @@ const controlLike=()=>{
 			likesView.deleteLike(currentID);
 
 		}
-		console.log(state.likes.getNumOfLikes());
+		
 		likesView.toggleMenuLike(state.likes.getNumOfLikes());
 }
 
@@ -189,7 +187,7 @@ elements.shoppingListDiv.addEventListener('click', e => {
     // Handle the count update
     } else if (e.target.matches('.shopping__count--value')) {
         const val = parseFloat(e.target.value, 10);
-      	console.log(val);
+      
         	state.list.updateCount(id, val);
         
         
@@ -197,3 +195,14 @@ elements.shoppingListDiv.addEventListener('click', e => {
 });
 
 
+window.addEventListener("load", ()=>{
+		state.likes=new Likes();
+		state.likes.readStorage();
+
+		likesView.toggleMenuLike(state.likes.getNumOfLikes());
+
+		state.likes.likes.forEach(like=>{
+			likesView.renderLike(like);
+		})
+		
+})
